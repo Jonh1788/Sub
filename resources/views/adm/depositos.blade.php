@@ -359,7 +359,7 @@ function saveFile(blob, filename) {
                     break;
                 case "Todos":
                     $("#valorUsuarios6").text('R$' + (aprovados + aguardando));
-                    $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'] + $("#valorUsuarios2").text(somaTotalValores['WAITING_FOR_APPROVAL']))
+                    $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'] + somaTotalValores['WAITING_FOR_APPROVAL'])
                     break;
             }
         });
@@ -413,7 +413,7 @@ function saveFile(blob, filename) {
                 break;
             case "Todos":
                 $("#valorUsuarios6").text('R$' + (aprovados + aguardando));
-                $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'] + $("#valorUsuarios2").text(somaTotalValores['WAITING_FOR_APPROVAL']))
+                $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'] + somaTotalValores['WAITING_FOR_APPROVAL'])
                 break;
         }
         // $.ajax({
