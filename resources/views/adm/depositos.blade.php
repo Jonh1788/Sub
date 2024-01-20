@@ -348,20 +348,24 @@ function saveFile(blob, filename) {
             var aprovados = parseFloat(somaTotal['PAID_OUT'] || 0);
             var aguardando = parseFloat(somaTotal['WAITING_FOR_APPROVAL'] || 0)
             
+            var aprovadosContagem = parseFloat(somaTotalValores['PAID_OUT'] || 0);
+            var aguardandoContagem = parseFloat(somaTotalValores['WAITING_FOR_APPROVAL'] || 0)
+
             switch(selectedStatus){
                 case "WAITING_FOR_APPROVAL":
                     $("#valorUsuarios6").text('R$' + aguardando);
-                    $("#valorUsuarios2").text(somaTotalValores['WAITING_FOR_APPROVAL'])
+                    $("#valorUsuarios2").text(aguardandoContagem)
                     break;
                 case "PAID_OUT":
                     $("#valorUsuarios6").text('R$' + aprovados);
-                    $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'])
+                    $("#valorUsuarios2").text(aprovadosContagem)
                     break;
                 case "Todos":
                     $("#valorUsuarios6").text('R$' + (aprovados + aguardando));
-                    $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'] + somaTotalValores['WAITING_FOR_APPROVAL'])
+                    $("#valorUsuarios2").text(aprovadosContagem + aguardandoContagem)
                     break;
             }
+            
         });
 
         
@@ -402,129 +406,27 @@ function saveFile(blob, filename) {
         var aprovados = parseFloat(somaTotal['PAID_OUT'] || 0);
         var aguardando = parseFloat(somaTotal['WAITING_FOR_APPROVAL'] || 0)
 
+        var aprovadosContagem = parseFloat(somaTotalValores['PAID_OUT'] || 0);
+        var aguardandoContagem = parseFloat(somaTotalValores['WAITING_FOR_APPROVAL'] || 0)
+
         switch(selectedStatus){
             case "WAITING_FOR_APPROVAL":
                 $("#valorUsuarios6").text('R$' + aguardando);
-                $("#valorUsuarios2").text(somaTotalValores['WAITING_FOR_APPROVAL'])
+                $("#valorUsuarios2").text(aguardandoContagem)
                 break;
             case "PAID_OUT":
                 $("#valorUsuarios6").text('R$' + aprovados);
-                $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'])
+                $("#valorUsuarios2").text(aprovadosContagem)
                 break;
             case "Todos":
                 $("#valorUsuarios6").text('R$' + (aprovados + aguardando));
-                $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'] + somaTotalValores['WAITING_FOR_APPROVAL'])
+                $("#valorUsuarios2").text(aprovadosContagem + aguardandoContagem)
                 break;
         }
-        // $.ajax({
-        //     type: "GET",
-        //     url: "../php/depositados_ultimas_24h.php",
-        //     data: { status: selectedStatus },
-        //     success: function (response) {
-        //         // Atualiza o valor exibido na página
-        //         $("#valorUsuarios6").text(response);
-        //         console.log(response); // Exibe a resposta do servidor no console
-        //     },
-        //     error: function (error) {
-        //         console.log("Erro na solicitação AJAX: " + error);
-        //     }
-        // });
     });
 });
 
 </script>
-
-
-<script>
-    // Função para obter o valor selecionado do select
-    function getSelectedValue() {
-        return $("#selectedStatus").val();
-    }
-    $(document).ready(function () {
-    // Evento de mudança no elemento select
-    $('#selectedStatus').on('change', function () {
-        // Obtém o valor selecionado
-        var selectedStatus = getSelectedValue();
-
-        // Solicitação AJAX com o parâmetro status para filtrar
-        $.ajax({
-            type: "GET",
-            url: "../php/total_depositos.php",
-            data: { status: selectedStatus },
-            success: function (response) {
-                // Atualiza o valor exibido na página
-                $("#valorUsuarios5").text(response);
-                console.log(response); // Exibe a resposta do servidor no console
-            },
-            error: function (error) {
-                console.log("Erro na solicitação AJAX: " + error);
-            }
-        });
-    });
-});
-
-</script>
-
-<script>
-    // Função para obter o valor selecionado do select
-    function getSelectedValue() {
-        return $("#selectedStatus").val();
-    }
-    $(document).ready(function () {
-    // Evento de mudança no elemento select
-    $('#selectedStatus').on('change', function () {
-        // Obtém o valor selecionado
-        var selectedStatus = getSelectedValue();
-
-        // Solicitação AJAX com o parâmetro status para filtrar
-        $.ajax({
-            type: "GET",
-            url: "../php/numero_depositos.php",
-            data: { status: selectedStatus },
-            success: function (response) {
-                // Atualiza o valor exibido na página
-                $("#valorUsuarios1").text(response);
-                console.log(response); // Exibe a resposta do servidor no console
-            },
-            error: function (error) {
-                console.log("Erro na solicitação AJAX: " + error);
-            }
-        });
-    });
-});
-
-</script>
-
-<script>
-    // Função para obter o valor selecionado do select
-    function getSelectedValue() {
-        return $("#selectedStatus").val();
-    }
-    $(document).ready(function () {
-    // Evento de mudança no elemento select
-    $('#selectedStatus').on('change', function () {
-        // Obtém o valor selecionado
-        var selectedStatus = getSelectedValue();
-
-        // Solicitação AJAX com o parâmetro status para filtrar
-        $.ajax({
-            type: "GET",
-            url: "../php/numero_depositos_ultimas_24h.php",
-            data: { status: selectedStatus },
-            success: function (response) {
-                // Atualiza o valor exibido na página
-                $("#valorUsuarios2").text(response);
-                console.log(response); // Exibe a resposta do servidor no console
-            },
-            error: function (error) {
-                console.log("Erro na solicitação AJAX: " + error);
-            }
-        });
-    });
-});
-
-</script>
-
 
 <script>
   $(document).ready(function () {
@@ -549,32 +451,48 @@ function saveFile(blob, filename) {
         loadData(statusValue, table);
     });
 
-    // Função para carregar dados da tabela
-    function loadData(status, dataTable) {
-        $.ajax({
-            url: 'bd.php',
-            method: 'GET',
-            data: { status: status },
-            success: function (data) {
-                // Inserir dados na tabela
-                data.forEach(function (row) {
-                    // Definir a classe com base no status para estilização
-                    var statusClass = (row.status === 'Aprovado') ? 'text-success' : 'text-black';
+    function filtrarDepositosPorData(depositosN, startDate, endDate) {
+            
+            function extrairData(dataString){
+            return new Date(dataString);
+            }
+            startDate.setDate(startDate.getDate()+1)
+            endDate.setDate(endDate.getDate()+1)
+            return depositosN.filter((objeto) => extrairData(objeto.data) >= startDate && extrairData(objeto.data) <= endDate)
 
-                    // Adicionar a nova linha ao corpo da tabela
-                    dataTable.row.add([
+    }
+
+    function loadData(status, dataTable) {
+                var data = @json($depositosRealizados);
+
+                var startDate = new Date($('#startDate').val());
+                var endDate = new Date($('#endDate').val());
+
+                data.forEach(function (row) {
+                
+                    if(row.status === status){
+                        var statusClass = (row.status === 'Aprovado') ? 'text-success' : 'text-black';
+                        dataTable.row.add([
                         row.data,
                         row.email,
                         row.externalreference,
                         row.valor,
                         row.status
                     ]).draw();
+                    } else if (status === 'Todos') {
+                        var statusClass = (row.status === 'Aprovado') ? 'text-success' : 'text-black';
+                        dataTable.row.add([
+                        row.data,
+                        row.email,
+                        row.externalreference,
+                        row.valor,
+                        row.status
+                    ]).draw();
+                    }
+                       
                 });
-            },
-            error: function () {
-                console.log('Erro ao obter dados do servidor.');
-            }
-        });
+
+       
     }
 
     // Chame a função loadData inicialmente para carregar todos os dados
