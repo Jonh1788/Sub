@@ -48,7 +48,7 @@ class CronjobsController extends Controller
             ->pluck('id');
 
         if ($idsToUpdate->count() > 0) {
-            
+        
             DB::table('appconfig')
                 ->whereIn('id', $idsToUpdate)
                 ->update([
@@ -76,10 +76,10 @@ class CronjobsController extends Controller
 
         foreach($indicados as $indicado){
 
-            $indicado = $indicado->id;
+            $id = $indicado->id;
             $indicadosCount = $indicado->indicados;
 
-            echo "<div style='$stylePrincipal'>ID Principal: $indicado, Indicados: $indicadosCount</div>";
+            echo "<div style='$stylePrincipal'>ID Principal: $id, Indicados: $indicadosCount</div>";
 
             $somaTotalDepositouPrincipal = 0;
             $somaTotalPercasPrincipal = 0;
@@ -87,7 +87,7 @@ class CronjobsController extends Controller
 
             $contasVinculadas = DB::table('appconfig')
             ->select('id', 'depositou', 'percas')
-            ->where('lead_aff', $indicado)
+            ->where('lead_aff', $id)
             ->get();
             
             foreach($contasVinculadas as $contaVinculada){
@@ -114,13 +114,13 @@ class CronjobsController extends Controller
             echo "<div style='$stylePrincipal'>Soma Total de Percas do ID Principal: $somaTotalPercasPrincipal</div>";
 
             $comissaoPrincipal = $somaTotalPercasPrincipal * 0.20;
-
+            
             DB::table('appconfig')
-            ->where('id', $indicado)
+            ->where('id', $id)
             ->update([
                 'saldo_comissao' => $comissaoPrincipal,
             ]);
-
+        
             echo "<div style='$stylePrincipal'>Comissão do ID Principal: $comissaoPrincipal</div>";
 
             if(!empty($idsAfiliados)){
@@ -259,7 +259,7 @@ class CronjobsController extends Controller
             $totalPercasGgr = DB::table('ggr')->value('total_percas');
 
             
-            $porcentagemDesconto = round(($ggrTaxa / 100) * $totalPercasGgr, 2);
+            $porcentagemDesconto = round(((float)$ggrTaxa / 100) * (float)$totalPercasGgr, 2);
 
             
             DB::table('ggr')->update(['ggr_total' => $porcentagemDesconto]);

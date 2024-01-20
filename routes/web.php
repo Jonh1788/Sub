@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdmController;
 use App\Http\Controllers\AfiliateController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
@@ -34,6 +35,12 @@ use App\Http\Controllers\CadastrarController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
 
 Route::get('/cadastrar', [CadastrarController::class, 'index']);
 Route::post('/cadastrar', [CadastrarController::class, 'store']);
@@ -79,4 +86,15 @@ Route::post('/lossdemo', [JogoDemoController::class, 'lossdemo']);
 Route::get('/consultarpagamento', [DepositoController::class, 'consultaPagamento']);
 Route::post('/consultarpagamento', [DepositoController::class, 'consultaPagamento']);
 Route::get('/cronjobs', [CronjobsController::class, 'index']);
+Route::get('/adm',[AdmController::class,'index']);
+Route::get('/adm/login',[AdmController::class,'login']);
+Route::post('/adm/login',[AdmController::class,'login']);
+Route::post('/adm/processos',[AdmController::class,'processo']);
+Route::get('/adm/GGR',[AdmController::class,'GGR']);
+Route::get('/adm/usuarios',[AdmController::class,'usuarios']);
+Route::post('/adm/usuarios',[AdmController::class,'usuarios']);
+Route::get('/adm/bd',[AdmController::class,'bd']);
+Route::get('/adm/usuarios',[AdmController::class,'usuarios']);
+Route::post('/adm/update',[AdmController::class,'update']);
+Route::get('/adm/depositos',[AdmController::class,'depositos']);
 

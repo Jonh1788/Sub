@@ -1444,9 +1444,10 @@ kwaiq.track('addPaymentInfo')
             document.execCommand("copy");
             document.body.removeChild(textArea);
             Swal.fire({
-                   
-                    showConfirmButton: true,
-                    timer: 4000,
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 2000,
                     icon: "success",
                     timerProgressBar: true,
                     text: "Código Copiado!",
