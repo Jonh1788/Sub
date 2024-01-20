@@ -390,6 +390,14 @@ function saveFile(blob, filename) {
             return acumulador;
 
         }, {})
+
+        var somaTotalValores = depositos.reduce((acumulador, objeto) => {
+
+        const status = objeto.status;
+        acumulador[status] = (acumulador[status] || 0) + 1;
+        return acumulador;
+
+        }, {})
         
         var aprovados = parseFloat(somaTotal['PAID_OUT'] || 0);
         var aguardando = parseFloat(somaTotal['WAITING_FOR_APPROVAL'] || 0)
@@ -397,12 +405,15 @@ function saveFile(blob, filename) {
         switch(selectedStatus){
             case "WAITING_FOR_APPROVAL":
                 $("#valorUsuarios6").text('R$' + aguardando);
+                $("#valorUsuarios2").text(somaTotalValores['WAITING_FOR_APPROVAL'])
                 break;
             case "PAID_OUT":
                 $("#valorUsuarios6").text('R$' + aprovados);
+                $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'])
                 break;
             case "Todos":
                 $("#valorUsuarios6").text('R$' + (aprovados + aguardando));
+                $("#valorUsuarios2").text(somaTotalValores['PAID_OUT'] + $("#valorUsuarios2").text(somaTotalValores['WAITING_FOR_APPROVAL']))
                 break;
         }
         // $.ajax({
