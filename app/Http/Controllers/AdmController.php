@@ -27,6 +27,7 @@ class AdmController extends Controller
         ->sum('valor');
 
         $quantidadeNumeroDepositos = $numeroDepositos->count();
+        
         $result = DB::table('app')
         ->get()->toArray();
         
@@ -42,7 +43,7 @@ class AdmController extends Controller
 
         
        
-        return view("adm.index", ["result"=> (array)$result, "quantidadeUsuarios" => $quantidadeUsuarios, 'quantidadeNumeroDepositos' => $quantidadeNumeroDepositos, 'valorTotalDepositos' => $valorTotalDepositos, 'totalSaques' => $totalSaques, 'valorTotalSaques' => $valorTotalSaques]);
+        return view("adm.index", ["result"=> (array)$result[0], "quantidadeUsuarios" => $quantidadeUsuarios, 'quantidadeNumeroDepositos' => $quantidadeNumeroDepositos, 'valorTotalDepositos' => $valorTotalDepositos, 'totalSaques' => $totalSaques, 'valorTotalSaques' => $valorTotalSaques]);
     }
 
     public function processo(Request $request){
