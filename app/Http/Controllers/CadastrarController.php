@@ -16,8 +16,8 @@ class CadastrarController extends Controller
 
     public function store(Request $request){
 
-        $baseUrl = $request->secure() ? "https" : "http" . "://" . $request->getHost();
-        $staticPart = '/cadastrar/?aff=';
+        $baseUrl = $request->fullUrl();
+        $staticPart = '/?aff=';
         $callbackUrl = $baseUrl . $staticPart;
 
         $conn = DB::connection()->getPdo();

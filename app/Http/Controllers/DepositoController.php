@@ -17,8 +17,11 @@ class DepositoController extends Controller
 
     public function __construct()
     {
-        // Defina o valor mínimo do depósito conforme necessário
-        $this->depositoMinimo = 2;
+        $depositoMin = DB::table('app')
+        ->select('deposito_min')
+        ->first();
+
+        $this->depositoMinimo = $depositoMin ? floatval($depositoMin->deposito_min) : 2;
     }
 
     public function index()
