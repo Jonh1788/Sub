@@ -42,7 +42,7 @@ class CadastrarController extends Controller
         $saldo_comissao = 0;
         $cpa = 0;
 
-        $linkAfiliado = $callbackUrl . $nextId;
+        $linkAfiliado = $callbackUrl . substr($nextId, 0, 5);
 
         $dataCadastro = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
         $dataCadastroFormatada = $dataCadastro->format('Y-m-d H:i');
