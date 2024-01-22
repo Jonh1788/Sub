@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 use DateTimeZone;
+use Ramsey\Uuid\Uuid;
 
 class CadastrarController extends Controller
 {
@@ -34,7 +35,7 @@ class CadastrarController extends Controller
             return redirect()->back()->with('error', 'Email já existe!');
         }
 
-        $nextId = DB::table('appconfig')->max('id') + 1;
+        $nextId = (string) Uuid::uuid4();
 
 
         while (DB::table('appconfig')->where('id', $nextId)->exists()) {

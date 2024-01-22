@@ -72,7 +72,8 @@
 
 <script>
         // Lista de nomes de exemplo
-    const nomes = ["Ana O.",
+    const nomes = 
+["Ana O.",
   "Pedro S.",
   "Clara C.",
   "Lucas P.",
