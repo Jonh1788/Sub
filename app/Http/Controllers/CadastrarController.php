@@ -17,7 +17,7 @@ class CadastrarController extends Controller
     public function store(Request $request){
 
         $baseUrl = $request->fullUrl();
-        $staticPart = '/?aff=';
+        $staticPart = '?aff=';
         $callbackUrl = $baseUrl . $staticPart;
 
         $conn = DB::connection()->getPdo();
@@ -37,11 +37,6 @@ class CadastrarController extends Controller
 
         $nextId = (string) Uuid::uuid4();
 
-
-        while (DB::table('appconfig')->where('id', $nextId)->exists()) {
-            $nextId++;
-    }
-
         $saldo = 0;
         $plano = 20;
         $saldo_comissao = 0;
@@ -52,7 +47,7 @@ class CadastrarController extends Controller
         $dataCadastro = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
         $dataCadastroFormatada = $dataCadastro->format('Y-m-d H:i');
 
-        $afiliado = $request->input('aff') ? $request->input('aff')  : 0;
+        $afiliado = $request->query('aff') ? $request->query('aff')  : 0;
 
         // Inserir dados no banco de dados usando Eloquent ou Query Builder
         DB::table('appconfig')->insert([
