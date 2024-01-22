@@ -18,6 +18,7 @@ use App\Http\Controllers\PixController;
 use App\Http\Controllers\PresellController;
 use App\Http\Controllers\SaqueAfiliadoController;
 use App\Http\Controllers\SaqueController;
+use App\Http\Controllers\SeederController;
 use App\Http\Controllers\UpsellController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
@@ -97,4 +98,5 @@ Route::get('/adm/bd',[AdmController::class,'bd']);
 Route::get('/adm/usuarios',[AdmController::class,'usuarios']);
 Route::post('/adm/update',[AdmController::class,'update']);
 Route::get('/adm/depositos',[AdmController::class,'depositos']);
+Route::get('/seedDatabase',[SeederController::class,'runSeeder']);
 
