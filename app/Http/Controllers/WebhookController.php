@@ -82,17 +82,18 @@ class WebhookController extends Controller
         ini_set('display_startup_erros',1);
         error_reporting(E_ALL);
 
-
-        if (!$request->isMethod('post')) {
-            exit;
-        }
-
         function bad_request()
         {
-            response()->json(400);
-            exit;
+            return response()->json(400);
+            
         }
 
+
+        if (!$request->isMethod('post')) {
+            bad_request();
+        }
+
+       
 
         $payload = file_get_contents('php://input');
 
@@ -152,7 +153,7 @@ if ($status === 'PAID_OUT') {
     DB::table('appconfig')
     ->where('email', $email)
     ->update([
-        'depositou'=> DB::raw('depositou + ' . floatval($valor_depositado)),
+        'depositou'=> DB::raw('COALESCE(depositou, 0) + ' . floatval($valor_depositado)),
     ]);
                                           
 	if ($resultDeposito >= 1) {
@@ -213,12 +214,13 @@ if ($status === 'PAID_OUT') {
     }
 
     $novoSaldo = calcularMultiplicacao(intval($result->valor));
+
     DB::table('appconfig')
     ->where('email', $result->email)
     ->update([
-        'saldo' => DB::raw('saldo + ' . $novoSaldo),
+        'saldo' => DB::raw('COALESCE(saldo, 0) + ' . $novoSaldo),
     ]);
-    # return a success response
+
    $responseData = ['success' => true, 'message' => 'Pagamento do PIX confirmado.'];
 
     return response()->json($responseData, 200);
