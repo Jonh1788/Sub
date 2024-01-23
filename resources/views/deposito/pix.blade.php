@@ -1356,7 +1356,7 @@ kwaiq.track('addPaymentInfo')
                     timer: 4000,
                     icon: "error",
                     timerProgressBar: true,
-                    text: "Código expirado!",
+                    text: "Pagamento não confirmado!",
                     color:"#000000",
                     iconColor: "#000000",
                     customClass: {
@@ -1657,7 +1657,7 @@ async function c() {
                   @if(Cookie::has('token'))
                  
                 <?php $token = Cookie::get('token')?>
-            @else
+                @else
                     <?php $token = 0?>
                    Swal.fire({
                     toast: true,
