@@ -153,7 +153,7 @@ if ($status === 'PAID_OUT') {
     DB::table('appconfig')
     ->where('email', $email)
     ->update([
-        'depositou'=> DB::raw('COALESCE(depositou, 0) + ' . floatval($valor_depositado)),
+        'depositou' => DB::raw('depositou + ' . intval($valor_depositado)),
     ]);
                                           
 	if ($resultDeposito >= 1) {
@@ -218,7 +218,7 @@ if ($status === 'PAID_OUT') {
     DB::table('appconfig')
     ->where('email', $result->email)
     ->update([
-        'saldo' => DB::raw('COALESCE(saldo, 0) + ' . $novoSaldo),
+        'saldo' => DB::raw('saldo + ' . $novoSaldo),
     ]);
 
    $responseData = ['success' => true, 'message' => 'Pagamento do PIX confirmado.'];
