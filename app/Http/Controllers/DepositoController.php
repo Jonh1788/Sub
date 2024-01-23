@@ -30,9 +30,7 @@ class DepositoController extends Controller
         
 
         // Obtenha a URL e a Callback URL
-        $baseUrl = request()->root();
-        $staticPart = '/webhook/pix.php';
-        $callbackUrl = $baseUrl . $staticPart;
+        $callbackUrl = route('webhook.pix');
 
 
         // Obtenha o email e jogoteste da sessão
@@ -128,33 +126,29 @@ class DepositoController extends Controller
 
     public function makePix($name, $cpf, $value, $clientId, $clientSecret)
     {
-        // Obtém a URL base da aplicação
-        $baseUrl = url('/');
 
-        // Constrói a URL completa para o callback
-        $callbackUrl = $baseUrl . '/webhook/pix.php';
-        
-        // Constrói o payload para a solicitação HTTP
+        $callbackUrl = route('webhook.pix');
+
         $payload = [
             'requestNumber' => '12356',
             'dueDate' => $this->get_user_date(),
             'amount' => floatval($value),
             'client' => [
                 'name' => $name,
-                'email' => 'cliente@email.com', // Você pode ajustar conforme sua lógica
+                'email' => 'cliente@email.com',
                 'document' => $cpf,
             ],
             'callbackUrl' => $callbackUrl,
         ];
 
-        // Faz a solicitação HTTP para o endpoint do gateway
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'ci' => $clientId,
             'cs' => $clientSecret,
         ])->post('https://ws.suitpay.app/api/v1/gateway/request-qrcode', $payload);
 
-        // Decodifica a resposta JSON
+
         $res = $response->json();
 
         return $res;

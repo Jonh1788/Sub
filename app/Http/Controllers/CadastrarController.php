@@ -10,12 +10,12 @@ use Ramsey\Uuid\Uuid;
 
 class CadastrarController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+
         return view('cadastrar.index');
     }
 
     public function store(Request $request){
-
         $baseUrl = $request->fullUrl();
         $staticPart = '?aff=';
         $callbackUrl = $baseUrl . $staticPart;
