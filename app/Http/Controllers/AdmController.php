@@ -102,7 +102,7 @@ class AdmController extends Controller
             var_dump($form);
 
         }else{
-
+            
             switch($opcao){
                 case "depositoMin":
 
@@ -153,7 +153,7 @@ class AdmController extends Controller
                     }
 
                 case "apostaMax":
-                    if ($result->num_rows > 0) {
+                    if ($result->count() > 0) {
                         $result_update = DB::table('app')
                         ->update(['aposta_max' => $valor]);
                         
@@ -177,7 +177,7 @@ class AdmController extends Controller
                         
                        
                 case "apostaMin":
-                    if ($result->num_rows > 0) {
+                    if ($result->count() > 0) {
                         $result_update = DB::table('app')
                         ->update(['aposta_min' => $valor]);
                         
@@ -200,7 +200,7 @@ class AdmController extends Controller
                         }
                         
                 case "rolloverSaque":
-                    if ($result->num_rows > 0) {
+                    if ($result->count() > 0) {
                         $result_update = DB::table('app')
                             ->update(['rollover_saque' => $valor]);
                             
@@ -223,7 +223,7 @@ class AdmController extends Controller
                         }
                         
                 case "taxaSaque":
-                    if ($result->num_rows > 0) {
+                    if ($result->count() > 0) {
                         $result_update = DB::table('app')
                         ->update(['taxa_saque' => $valor]);
                         
@@ -246,7 +246,8 @@ class AdmController extends Controller
                         }
 
                 case "dificuldadeJogo":
-                    if ($result->num_rows > 0) {
+                    
+                    if ($result->count() > 0) {
                         $result_update = DB::table('app')
                         ->update(['dificuldade_jogo' => $valor]);
                         

@@ -85,7 +85,8 @@ class PainelController extends Controller
         if (!empty($email)) {
             try {
                 
-                $dificuldade_jogo = DB::table('app')->where('email', $email)->value('dificuldade_jogo');
+                $dificuldade_jogo = DB::table('app')->value('dificuldade_jogo');
+                
             } catch (\Exception $e) {
                 
                 report($e);

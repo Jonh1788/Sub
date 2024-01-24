@@ -262,7 +262,7 @@ $nomeDois = config('subway_pix.nomeDois');
         var dificuldade = <?php echo json_encode($dificuldade_jogo) == '"facil"' ? '"B1C2"' : (json_encode($dificuldade_jogo) == '"medio"' ? '"B1C3"' : '"B1C4"'); ?>;
         if (saldo > 0) {
             // Se o saldo for maior que zero, execute a função subtrairSaldo
-            window.location.href = '/jogar?jogarsubway=' + quantidade + '&SbS'+dificuldade;
+            window.location.href = '/jogar?jogarsubway=' + quantidade + '&SbS' + dificuldade;
             return false; // Impede o envio do formulário
         } else {
             // Se o saldo for igual ou menor que zero, exibe um alerta e impede o envio do formulário
