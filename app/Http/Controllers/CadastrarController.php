@@ -67,7 +67,7 @@ class CadastrarController extends Controller
             'data_cadastro' => $dataCadastroFormatada,
             'afiliado' => $afiliado,
             'jogoteste' => '',
-            'depositou' => '',
+            'depositou' => 0,
             'leads_ativos' => '',
             'rollover1' => '', 
             'demo' => '',
