@@ -26,6 +26,7 @@ class CadastrarController extends Controller
         $senha = $request->input('senha');
         $telefone = $request->input('telefone_confirmation');
         $leadAff = request()->input('lead_aff', '0');
+        $utmcampaign = session()->has('utmcampaign') ? session('utmcampaign') : '' ;
         if($leadAff == null){
             $leadAff = 0;
         }
@@ -84,7 +85,7 @@ class CadastrarController extends Controller
             'cont_cpa' => '',
             'utm_source' => '',
             'utm_medium' => '',
-            'utm_campaign' => '',
+            'utm_campaign' => $utmcampaign,
         ]);
 
         session_start();

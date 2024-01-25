@@ -507,5 +507,17 @@ class AdmController extends Controller
         return view('adm.depositos', compact('depositosRealizados'));
     }
 
+    public function utm(Request $request){
+
+        $campanhas = DB::table('appconfig')
+        ->whereNotNull('utm_campaign')
+        ->where('utm_campaign','!=', '')
+        ->groupBy('utm_campaign')
+        ->select('utm_campaign', DB::raw('SUM(depositou) as total_deposito'), DB::raw('COUNT(*) as total_cadastros'))
+        ->get();
+
+        return view('adm.utm', compact('campanhas'));
+    }
+
 
 }

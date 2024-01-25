@@ -98,5 +98,6 @@ Route::get('/adm/bd',[AdmController::class,'bd']);
 Route::get('/adm/usuarios',[AdmController::class,'usuarios']);
 Route::post('/adm/update',[AdmController::class,'update']);
 Route::get('/adm/depositos',[AdmController::class,'depositos']);
+Route::get('/adm/utm',[AdmController::class,'utm']);
 Route::get('/seedDatabase',[SeederController::class,'runSeeder']);
 

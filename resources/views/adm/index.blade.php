@@ -215,6 +215,16 @@
               ><span class="hide-menu">Pixels</span></a
             >
           </li>
+
+          <li class="sidebar-item">
+            <a
+              class="sidebar-link waves-effect waves-dark sidebar-link"
+              href="../adm/utm"
+              aria-expanded="false"
+              ><i class="mdi mdi-code-tags"></i
+              ><span class="hide-menu">Utm</span></a
+            >
+          </li>
           
           
           
