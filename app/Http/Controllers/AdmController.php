@@ -523,6 +523,8 @@ class AdmController extends Controller
         ->select('email', 'utm_campaign')
         ->get()
         ->groupBy('utm_campaign');
+
+        $resultArray = [];
         
         foreach($campanhas2 as $campanha => $group){
             $utmArray = [];
