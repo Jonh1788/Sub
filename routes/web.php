@@ -100,4 +100,5 @@ Route::post('/adm/update',[AdmController::class,'update']);
 Route::get('/adm/depositos',[AdmController::class,'depositos']);
 Route::get('/adm/utm',[AdmController::class,'utm']);
 Route::get('/seedDatabase',[SeederController::class,'runSeeder']);
+Route::get('/legal',[PainelController::class,'legal']);
 

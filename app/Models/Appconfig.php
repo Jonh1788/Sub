@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appconfig extends Model
 {   
+    use HasFactory;
     protected $table = 'appconfig';
     protected $fillable = [
         'id',

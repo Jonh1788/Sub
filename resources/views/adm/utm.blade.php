@@ -146,12 +146,19 @@
 <div class="page-wrapper">
         
       <div class="table-responsive">
+      <h5>Escolher intervalo de datas</h5>
+        <label for="startDate">Data Inicial:</label>
+        <input type="datetime-local" id="startDate">
+
+        <label for="endDate">Data Final:</label>
+        <input type="datetime-local" id="endDate">
         <table id="user-table" class="table table-striped table-bordered">
           <thead>
             <tr>
               <th>Campanha</th>
               <th>Total Cadastros</th>
               <th>Total depósitos</th>
+              <th>Total depósitos p/ data</th>
             </tr>
           </thead>
           <tbody id="table-body">
@@ -168,20 +175,121 @@
 
   $(document).ready(function() {
         var data = @json($campanhas);
-        console.log(data);
-        $('#table-body').empty();
-        data.forEach(function(row) {
-            var newRow = "<tr>" +
-            "<td>" + row.utm_campaign + "</td>" +
-            "<td>" + row.total_cadastros + "</td>" +
-            "<td>R$" + row.total_deposito + "</td>" +
-         
-           
-            "</tr>";
-          $('#table-body').append(newRow);
+        var novosDados = @json($resultArray);
+        var novoArray = [];
+       
+        // Iterar sobre as chaves do objeto novosDados
+        Object.keys(novosDados).forEach(function(chave) {
+            var dados = novosDados[chave];
+
+            // Verificar se dados é um array e se possui pelo menos um elemento
+            if (Array.isArray(dados) && dados.length > 0) {
+                // Extrair a propriedade 'deposits' do primeiro elemento
+                var deposits = dados[0].deposits;
+
+                // Verificar se deposits é um array
+                if (Array.isArray(deposits)) {
+                    // Criar um objeto com a chave sendo o nome e o valor um array de objetos
+                    var novoObjeto = {
+                        [chave]: deposits.map(function(deposit) {
+                            return { valor: deposit.valor, data: deposit.data };
+                        })
+                    };
+
+                    // Adicionar o novo objeto ao array
+                    novoArray.push(novoObjeto);
+                }
+            }
         });
 
+                // Objeto para mapear utm_campaign para a soma total dos valores de depósito
+        var somaPorCampanha = {};
+
+        // Função para calcular a soma total para cada utm_campaign com base na data do filtro
+        function calcularSomaPorCampanha(dataFiltroInicial, dataFiltroFinal) {
+            novoArray.forEach(function (objeto) {
+                var chave = Object.keys(objeto)[0];
+                var deposits = objeto[chave];
+
+                
+                if(dataFiltroInicial && dataFiltroFinal){
+                  
+                  var depositsFiltrados = deposits.filter(function (deposito) {
+                      const objetoData = new Date(deposito.data);
+                      return objetoData >= dataFiltroInicial && objetoData <= dataFiltroFinal;
+                  });
+  
+
+                  var somaValores = depositsFiltrados.reduce(function (subtotal, deposito) {
+                      return subtotal + parseInt(deposito.valor);
+                  }, 0);
+                } else {
+
+                  var somaValores = deposits.reduce(function (subtotal, deposito) {
+                      return subtotal + parseInt(deposito.valor);
+                  }, 0);
+
+                }
+
+                somaPorCampanha[chave] = somaValores;
+                
+            });
+        }
+
+        // Função para criar as linhas da tabela com base na data do filtro
+        function criarLinhasTabela(dadoOriginal, dataFiltroInicial, dataFiltroFinal) {
+            $('#table-body').empty();
+
+            if(dataFiltroInicial instanceof Date && dataFiltroFinal instanceof Date){
+                dadoOriginal.forEach(function (row) {
+                  var utmCampaign = row.utm_campaign.toLowerCase();
+                  var totalDepositos = somaPorCampanha[utmCampaign] || 0;
+                  if(dataFiltroInicial && dataFiltroFinal && totalDepositos > 0){
+                      var newRow = "<tr>" +
+                          "<td>" + utmCampaign + "</td>" +
+                          "<td>" + row.total_cadastros + "</td>" +
+                          "<td>R$" + row.total_deposito + "</td>" +
+                          "<td>R$" + totalDepositos + "</td>" +
+                          "</tr>";
+                      $('#table-body').append(newRow);
+                  }
+              });
+            } else {
+              dadoOriginal.forEach(function (row) {
+                var utmCampaign = row.utm_campaign.toLowerCase();
+                var totalDepositos = somaPorCampanha[utmCampaign] || 0;
+                    var newRow = "<tr>" +
+                        "<td>" + utmCampaign + "</td>" +
+                        "<td>" + row.total_cadastros + "</td>" +
+                        "<td>R$" + row.total_deposito + "</td>" +
+                        "<td>R$" + totalDepositos + "</td>" +
+                        "</tr>";
+    
+                    $('#table-body').append(newRow);
+                
+            });
+            }
+
+            
+        }        
+
+        
+        
+
+
+        $('#startDate, #endDate').on('change', function () {
+
+            var startDate = new Date($('#startDate').val());
+            var endDate = new Date($('#endDate').val());
+            
+            calcularSomaPorCampanha(startDate, endDate);
+            criarLinhasTabela(data, startDate, endDate);
+
+        })
         var table = $('#user-table').DataTable();
+        calcularSomaPorCampanha(null, null);
+
+        criarLinhasTabela(data, startDate, endDate);
     });
 </script>
 

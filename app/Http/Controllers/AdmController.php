@@ -516,7 +516,51 @@ class AdmController extends Controller
         ->select('utm_campaign', DB::raw('SUM(depositou) as total_deposito'), DB::raw('COUNT(*) as total_cadastros'))
         ->get();
 
-        return view('adm.utm', compact('campanhas'));
+        $campanhas2 = DB::table('appconfig')
+        ->whereNotNull('utm_campaign')
+        ->where('utm_campaign','!=', '')
+        ->where('depositou','>',0)
+        ->select('email', 'utm_campaign')
+        ->get()
+        ->groupBy('utm_campaign');
+        
+        foreach($campanhas2 as $campanha => $group){
+            $utmArray = [];
+            
+            foreach($group as $result){
+                
+                $deposits = DB::table('confirmar_deposito')
+                ->where('email', $result->email)
+                ->get();
+                
+                $depositsArray = [];
+
+                foreach($deposits as $deposit){
+                    $depositsArray[] = [
+                        'valor' => $deposit->valor,
+                        'data' => $deposit->data,
+                    ];
+                }
+                
+                if(!empty($depositsArray)){
+
+                    $utmArray[] = [
+                        'deposits' => $depositsArray
+                    ];
+                }
+            }
+
+            if(!empty($utmArray)){
+                $resultArray[$campanha] = $utmArray;
+            }
+        }
+
+       
+   
+        
+        
+        
+        return view('adm.utm', compact('campanhas','resultArray'));
     }
 
 

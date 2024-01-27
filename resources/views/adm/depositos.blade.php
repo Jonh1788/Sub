@@ -255,10 +255,10 @@ function saveFile(blob, filename) {
         </select>
         <h5>Escolher intervalo de datas</h5>
         <label for="startDate">Data Inicial:</label>
-        <input type="date" id="startDate">
+        <input type="datetime-local" id="startDate">
 
         <label for="endDate">Data Final:</label>
-        <input type="date" id="endDate">
+        <input type="datetime-local" id="endDate">
         <table id="user-table" class="table table-striped table-bordered">
           <thead>
             <tr>
@@ -328,7 +328,6 @@ function saveFile(blob, filename) {
             var depositosN = @json($depositosRealizados);
             var valor = 0;
             var depositos = filtrarDepositosPorData(depositosN, startDate, endDate);
-            console.log(depositosN)
             var somaTotal = depositos.reduce((acumulador, objeto) => {
 
                 const status = objeto.status;
@@ -458,6 +457,7 @@ function saveFile(blob, filename) {
             }
             startDate.setDate(startDate.getDate()+1)
             endDate.setDate(endDate.getDate()+1)
+            console.log(startDate)
             return depositosN.filter((objeto) => extrairData(objeto.data) >= startDate && extrairData(objeto.data) <= endDate)
 
     }

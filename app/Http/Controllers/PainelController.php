@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PainelController extends Controller
-{
+{   
+    public function legal(){
+        return view("legal.index");
+    }
     public function index(Request $request)
     {   
         
